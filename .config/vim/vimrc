@@ -1,0 +1,392 @@
+" ==========================================
+" .vimrc
+" ==========================================
+
+" Disable compatibility with vi which can cause unexpected issues.
+set nocompatible
+
+" ==========================================
+" General Configuration Options "
+" ==========================================
+
+" run this in case the error "no python3 provider found" appears 
+" python3 -m pip install --user --upgrade pynvim
+" if  "externally-managed-environment" Error appears : 
+" cd /usr/lib/python3.11
+"sudo rm EXTERNALLY-MANAGED
+
+" if the ycmd server shut down error occures : 
+" cd ~/.vim/plugged/youcompleteme
+" python3 install.py
+" optional : install cmake package 
+
+" autocomplete features for tab and other 
+set completeopt=menu,menuone,noselect
+set wildmenu
+
+set guifont=DejaVu\ Sans\ Mono:h11
+
+map <leader>c :w !xclip -selection clipboard<CR>
+
+"map <leader>x :execute 'silent! !bash ~/.local/bin/vim_to_tmux.sh' <Bar> redraw!<CR>
+nnoremap <leader>x :stop<CR>:execute 'silent! !bash ~/.local/bin/vim_to_tmux.sh'<CR>
+
+function! StartTmux()
+    execute '!tmux attach-session -t your_session_name || tmux new-session -s your_session_name'
+endfunction
+
+command! Tmux call StartTmux()
+
+" New lines inherit the indentation of previous lines 
+:set autoindent       " Copies the indent from the previous line
+:set smartindent      " Adds extra indentation in some cases
+:set shiftwidth=4     " Sets the number of spaces for each indent level
+" Set tab width to 2 columns.
+:set tabstop=4        " Sets the number of spaces for a tab
+"on pressing tab, insert 4 spaces
+:set expandtab        " Converts tabs to spaces
+
+filetype plugin indent on
+
+" Turn syntax highlighting on.
+syntax on
+set clipboard=unnamedplus
+
+" autoindent for files
+set ai
+set si
+set pastetoggle=<f5>
+
+
+" disable vim help menu 
+:nmap <F1> :echo<CR>
+:imap <F1> <C-o>:echo<CR>
+
+""inoremap " ""<left>
+""inoremap ' ''<left>
+""inoremap ( ()<left>
+""inoremap [ []<left>
+""inoremap { {}<left>
+""inoremap {<CR> {<CR>}<ESC>O
+""inoremap {;<CR> {<CR>};<ESC>O
+
+set termwinsize=10x200
+
+highlight TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
+highlight TabLine ctermfg=Blue ctermbg=Yellow
+highlight TabLineSel ctermfg=Red ctermbg=Yellow
+
+let g:dark_theme = 'ayu'
+let g:light_theme = 'github'
+let g:current_theme = g:dark_theme
+
+" more contrast
+let g:afterglow_blackout=1
+
+let g:afterglow_italic_comments=1
+
+let g:afterglow_inherit_background=1
+
+" Function to toggle between light and dark themes
+function! ToggleTheme()
+    if g:current_theme == g:dark_theme
+        let g:current_theme = g:light_theme
+        let g:airline_theme = "github"
+        set background=light
+    else
+        let g:current_theme = g:dark_theme
+        let g:airline_theme = "ayu"
+        highlight Cursor guifg=yellow guibg=darkgreen
+        "set background=dark
+    endif
+    execute 'colorscheme' g:current_theme
+endfunction
+
+nnoremap <F12> :call ToggleTheme()<CR>
+
+" Map the toggle function to a keybinding
+
+
+let mapleader =" "
+
+            
+" set bigger history of executed commands 
+set history=1000
+
+" show current mode at the bottom 
+set showmode
+
+" show partial typed commands in status line  
+set showcmd
+
+set showmatch
+set matchtime=3
+
+"support for nasm autocompletion
+autocmd BufReadPost *.asm setf nasm
+
+" Remap Escape Mode Keys
+imap jj <Esc>
+
+inoremap jh <Bar>
+inoremap jt ~
+inoremap jr {
+inoremap je }
+inoremap jb [
+inoremap jc ]
+
+nnoremap <Leader>F :tabnew \| Files ~/<CR>
+nnoremap <Leader>e :tabnew \| Files $PWD<CR>
+
+"spawn terminal in current vim session
+"map <leader>t :bo term <CR>
+map <leader>t :let $VIM_DIR=expand('%:p:h')<CR>:bo term<CR>cd $VIM_DIR<CR>clear<CR>
+
+" vv to generate new vertical split
+"map <leader>v :vsplit<CR>:Files ~/ <CR>
+nnoremap <leader>v :vsplit<CR>:wincmd l<CR>:enew<CR>:Files ~/<CR>
+nnoremap <leader>h :belowright split<CR>:wincmd l<CR>:enew<CR>:Files ~/<CR>
+map <leader>w <C-w>
+
+
+"nerd tree
+map <leader>n :NERDTreeToggle<CR>
+""nnoremap <C-c> :VimtexCompile<CR>
+""nnoremap <C-z> :VimtexCompile<CR>
+
+"nmap n :m +1<CR>
+"nmap m :m -2<CR>
+
+" set zathura pdf viewer as default for latex files
+let g:vimtex_view_method = 'zathura'
+
+"disable continuing comments at new line
+set formatoptions-=cro
+
+""""""""""""""""""""
+""" Search Options "
+""""""""""""""""""""
+
+" Use highlighting when doing a search.
+set hlsearch
+
+" Ignore capital letters during search.
+set ignorecase
+
+" While searching though a file incrementally highlight matching characters as you type.
+set incsearch
+
+" Turn off highlight search
+nmap <silent> ,/ :nohlsearch<CR>
+
+""""""""""""""""""""""""""""
+"" Vim Plugins """""""""""""
+""""""""""""""""""""""""""""
+"packadd YouCompleteMe
+    
+
+"Plug 'gergap/vim-ollama'
+call plug#begin('~/.config/vim/plugged')
+"plugin providing linting (syntax checking and semantic errors)
+Plug 'dense-analysis/ale'
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+
+Plug 'preservim/nerdtree'
+Plug 'preservim/vimux'
+Plug 'danilo-augusto/vim-afterglow' "colorscheme dark mode
+Plug 'cormacrelf/vim-colors-github'
+Plug 'ayu-theme/ayu-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
+"Plug 'tpope/vim-fireplace'
+"Plug 'guns/vim-sexp'
+"Plug 'tpope/vim-sexp-mappings-for-regular-people'
+"Plug 'tpope/vim-salve'
+""Plug 'liquidz/vim-iced', {'for': 'clojure'}
+Plug 'junegunn/goyo.vim'
+Plug 'tibabit/vim-templates'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'jremmen/vim-ripgrep'
+"Plug 'mxw/vim-prolog'
+"Plug 'rareitems/anki.nvim'
+" rust support
+Plug 'rust-lang/rust.vim'
+
+
+"Plug 'lervag/vimtex'
+
+" Enable vim-iced's default key mapping
+" This is recommended for newbies
+" Automatically start and connect to an nREPL when opening a Clojure file
+
+call plug#end()
+
+set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
+let g:rg_derive_root='true'
+
+nnoremap \ :Rg<CR>
+nnoremap <C-T> :Files<cr>
+nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>s :BLines<cr>
+
+" Always enable rainbow parentheses
+" creates a named group do clear/redefine it later.
+ augroup rainbow_all
+   autocmd!
+   "runs the :RainbowParentheses command whenever Vim starts, for any filetype.
+   autocmd VimEnter * RainbowParentheses
+ augroup END
+
+"au VimEnter * RainbowParenthesesToggle
+"au Syntax * RainbowParenthesesLoadRound
+"au Syntax * RainbowParenthesesLoadSquare
+"au Syntax * RainbowParenthesesLoadBraces
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+
+" List of colors that you do not want. ANSI code or #RRGGBB
+" let g:rainbow#blacklist = [233, 234]
+
+"autocmd FileType lisp,scheme,clojure,commonlisp,janet,lua,python call sexp#enable()
+"autocmd FileType clojure,scheme,lisp,emacs-lisp,janet setlocal foldmethod=syntax
+
+
+"let g:iced_enable_default_key_mappings = v:true
+"autocmd FileType clojure IcedStart
+map <leader>g :Goyo \| set linebreak<CR>
+map <leader>jw <C-w>
+
+"pathogen.vim 
+execute pathogen#infect()
+
+"let g:ayu_enable_italic = 1
+let g:airline_theme = "afterglow"
+" let g:ayu_style = 'night' " available: night, storm
+
+
+""""""""""""""""""""""""""""
+""" Text rendering Options "
+""""""""""""""""""""""""""""
+
+
+" Wrap lines at convenient points, avoid wrapping a line in the middle of a word
+set linebreak
+
+" Open new file in a new Window
+let g:netrw_browse_split = 4
+
+
+
+"""""""""""""""""""""""""""
+""" Miscellaneous Options "
+"""""""""""""""""""""""""""
+
+" Check spelling in English
+"set spell
+
+
+
+""""""""""""""""""""""""""""""
+""" User Interface Options   " 
+""""""""""""""""""""""""""""""
+
+" Always display the status bar 
+set laststatus=2 
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+
+" always show cursor position
+set ruler
+
+" Colors for vim 
+"...
+set termguicolors     " enable true colors support
+"let ayucolor="light"  " for light version of theme
+"let ayucolor="mirage" " for mirage version of theme
+""let ayucolor="dark"   " for dark version of theme
+colorscheme ayu 
+
+" Add numbers to each line on the left-hand side.
+set number
+" turn relative numbers on 
+set relativenumber
+" Highlight cursor line underneath the cursor horizontally.
+set cursorline
+
+" Set the window’s title, reflecting the file currently being edited
+set title
+
+" disable beep on errors 
+set noerrorbells
+
+
+
+
+""""""""""""""""""""""""""""""""""
+""" Swap and backup file options""
+""""""""""""""""""""""""""""""""""
+
+" place where vim will store all swap files 
+"set directory=$HOME/.config/vim/vim/swp/
+
+ 
+
+
+""""""""""""""""""""""""
+""" Indentation Options"
+""""""""""""""""""""""""
+
+
+"set autoindent
+
+
+" Load an indent file for the detected file type.
+filetype indent on
+
+" Enable plugins and load plugin for the detected file type.
+filetype plugin on
+
+
+
+" Enable type file detection. Vim will be able to try to detect the type of
+" file in use
+filetype on
+
+" Clojure 
+au BufNewFile,BufRead *.clj,*.cljs setfiletype clojure
+au BufNewFile,BufRead *.pl setfiletype prolog
+au BufNewFile,BufRead *.clj,*.cljs call PareditInitBuffer()
+autocmd BufRead *.clj try | silent! Require | catch /^Fireplace/ | endtry
+
+" automatic repl connection 
+"autocmd FileType clojure :Require
+au VimEnter *.clj :Require
+" default value seems to be 100
+let g:paredit_matchlines = 200
+let g:vorlesung=0
+command Vv let g:vorlesung=1
+command Ww let g:vorlesung=0
+map <F2> :Eval<CR>
+"inoremap <expr> <F3> g:vorlesung==1 ? "moy%$a (do <ESC>mipc!!`ii ; => <ESC>`o" : "cpp"
+"map <expr> <F3> g:vorlesung==0 ? "cpp" : "mo%muA ;<ESC>`uf;d$`oy%%$a <ESC>mia(do <ESC>p`[%a)<ESC>c!!`ii; => <ESC>`o"
+map <expr> <F3> g:vorlesung==0 ? "cpp" : ":set paste<CR>mo%muA ;<ESC>`uf;d$`oy%%$a <ESC>mia(do <ESC>p`[%a)<ESC>c!!`ii; => <ESC>`o:set nopaste<CR>"
+map <expr> <F4> g:vorlesung==0 ? "cp$" : ":set paste<CR>moA ;<ESC>`of;d$`oy$$a <ESC>mia(do <ESC>pa)<ESC>c!!`ii; => <ESC>`o:set nopaste<CR>"
+"map <F3> cpp
+"map <F4> cp$
+map <F5> cmm
+nnoremap <F6> :set nonumber nornu!<CR>
+
+" setup for clojure files
+autocmd FileType clojure setlocal expandtab shiftwidth=2 softtabstop=2 tabstop=2
+
+
+" display command line's tab complete options as a menu
+set wildmenu
+
+" Edit vimrc configuration file
+nnoremap <Leader>ve :e $MYVIMRC<CR>
+" " Reload vimrc configuration file
+nnoremap <Leader>vr :source $MYVIMRC<CR>
+
