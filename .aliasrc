@@ -1,0 +1,170 @@
+# ==================================================
+# shell aliases
+# ==================================================
+
+# replace neofetch with fastfetch 
+alias neofetch='fastfetch'
+alias record='ffmpeg -f x11grab -s "1920x1080" -i :0.0+0.0 -r 25 $(date +%s)-recording.mp4'
+
+alias lsblk="lsblk | bat -l conf -p"
+alias lscpu="lscpu | bat -l cpuinfo -p"
+alias lsmod="lsmod | bat -l conf -p"
+alias rm="rm -Iv"
+
+# ==================================================
+# git 
+# ==================================================
+alias ga='git add'
+alias gs='git status'
+alias gco='git commit -m'
+alias gch='git checkout'
+alias gb='git branch'
+alias gpull='git pull'
+alias gpush='git push'
+alias gf='git fetch'
+
+
+# ==================================================
+# i3lock config 
+# ==================================================
+lock_bg="/home/john/.local/share/wallpapers/road-trees.jpg"
+alias i3lock='i3lock --date-color=ffffffff --time-color=ffffffff -n -k --indicator --radius 120 --ring-width 15 -i $lock_bg -f -F'
+
+# zoxide
+alias cd='z'
+alias cdi='zi'
+alias v="vim"
+alias clt="create_tex_template.sh"
+alias run='cd /run/media/$USER'
+
+alias cat='bat --theme ansi'
+
+alias tree='tree -facQhC'
+alias treeh='tree -aQhC | less'
+#alias vp="vim -o `fzf --preview 'less {}'`"
+alias share='cd ~/.local/share'
+alias bin='cd ~/.local/bin'
+alias wallpapers='cd ~/.local/share/wallpapers'
+alias mank="man -k . | fzf | awk '{print $1}' | xargs -r man"
+
+# list exif (exchangable image file format) data with imagemagick
+alias meta="identify -format '%[EXIF:*]'"
+# remove metadata (image magick)
+alias metarm='mogrify -strip'
+
+alias tmp='cd ~/tmp'
+
+alias web='cd ~/stuff/projects/john-sth.github.io'
+
+## show time in terminal 
+alias ttime='while true; do clear; date '+%T'; sleep 1; done'
+
+# change directories faster with fzf
+alias cdf='\cd $(fd -t d --hidden . ~ | fzf --walker-root=/home/$USER)'
+# change directories faster with fzf and start yazi
+alias cdy='\cd $(fd -t d --hidden . ~ | fzf --walker-root=/home/$USER) && yazi'
+
+## update grub after changing config files 
+alias grub-cfg="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+
+alias fs='sh $HOME/.local/bin/fzf_file_opening.sh'
+
+## diashow with feh command
+alias dia='feh -D 3 --full-screen *'
+
+## compress pdf files or different
+alias pdf-compress='gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf'
+
+#alias vim='nvim'
+alias cm='compileC.sh'
+alias xconf='vim ~/.xinitrc'
+alias i3conf='vim ~/.config/i3/config'
+alias arc='vim ~/.aliasrc' 
+alias vrc='vim ~/.config/.vimrc' 
+alias yaziconf='vim ~/.config/yazi/yazi.toml' 
+alias yazikeys='vim ~/.config/yazi/keymap.toml' 
+
+alias nsxiv='swallow nsxiv'
+alias sst='cd ~/pictures/screenshots'
+
+alias ls='exa'
+alias ll='exa -la'
+alias llc='clear && exa -la'
+alias la='exa -a'
+#Sort resources by _file_ size.**   
+alias lu='du -sh * | sort -h' 
+#count how many files are in a directory
+alias count='find . -type f | wc -l'
+## show current directories
+alias ld='ls -d */' 
+
+alias 1d="cd .."  
+alias 2d="cd ..;cd .."  
+alias 3d="cd ..;cd ..;cd .."  
+alias 4d="cd ..;cd ..;cd ..;cd .."  
+alias 5d="cd ..;cd ..;cd ..;cd ..;cd .."
+
+# progress bar for copy
+alias cpv='rsync -ah --info=progress2'
+alias amerge='read filename | pdftk *.pdf cat output $filename'
+
+alias grep='grep --color=auto'
+#alias mpv='swallow mpv'
+alias za='swallow zathura || zathura'
+alias sxiv='swallow sxiv'
+## fix typos
+alias sl='ls'
+
+##git bare repo for dotfiles
+alias config='/usr/bin/git --git-dir=/home/john/.cfg/.git --work-tree=/home/john'
+
+# find 
+alias find='sudo find' 
+
+alias mkdir='mkdir -pv'
+alias mount='lsblk -f && sudo mount |column -t'
+alias umount='lsblk && sudo umount' 
+
+alias h='history'
+alias j='jobs -l'
+
+alias reboot='sudo /sbin/reboot'
+alias poweroff='sudo /sbin/poweroff'
+alias halt='sudo /sbin/halt'
+alias shutdown='sudo /sbin/shutdown'
+
+## pass options to free ##
+alias meminfo='free -m -l -t'
+ 
+## get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+ 
+## get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+ 
+## Get server cpu info ##
+alias cpuinfo='lscpu'
+ 
+## older system use /proc/cpuinfo ##
+##alias cpuinfo='less /proc/cpuinfo' ##
+ 
+## get GPU ram on desktop / laptop##
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
+
+alias df='df -H'
+#alias du='du -ch'
+alias du='ncdu --show-hidden'
+alias df='dysk'
+
+## update System
+alias pacup='sudo pacman -Syu && yay -Syu'
+alias paci='sudo pacman -S'
+alias yayi='yay -S'
+alias pacrem='sudo pacman -Rcns'
+alias pl='pacman -Qs'
+alias yr='yay -Rcns'
+alias pacinfo="yay -Qq | fzf --preview='yay -Qs {1}'| xargs -r yay -Qi"
+alias pacsearch="yay -Ss | fzf --preview='yay -Ss {1}'| xargs -r yay -Qi"
+alias pacorphans='pacman -Qtdq | sudo pacman -Rns -'
