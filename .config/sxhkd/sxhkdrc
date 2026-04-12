@@ -1,0 +1,51 @@
+# Universal Bindings across most DE and WE
+
+# Program launcher
+
+super + @Return
+  st
+
+super + w
+  librewolf
+
+super + r
+    pcmanfm
+
+# Close focused window
+super + {q,Shift+q}
+    xdotool getactivewindow windowkill
+
+# Switch between windows
+super + {h,j,k,l}
+    bspc node -{f,s,e,w}
+
+# Move windows
+super + Shift + {h,j,k,l}
+    bspc node -s {west,south,north,east}
+
+# Reload sxhkd
+super + Escape
+    pkill -USR1 -x sxhkd
+
+super + F1
+    alacritty -e pulsemixer
+
+super + F2 
+    alacritty -e nm-connection-editor
+
+super + F3 
+    alacritty -e nmtui
+
+super + Shift + w 
+    firefox
+
+@XF86LaunchA
+	scrot -s -e 'image_viewer $f'
+
+super + shift + equal
+	sxiv -rt "$HOME/image"
+
+XF86LaunchB
+	xdotool selectwindow | xsel -bi
+
+    

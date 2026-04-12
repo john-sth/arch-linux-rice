@@ -1,0 +1,93 @@
+{
+    "position": "top",
+    "height": 26,
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-right": ["custom/cava","pulseaudio", "cpu", "memory","network","battery", "clock", "bluetooth","tray"],
+    "tray": {
+        "spacing": 10
+    },
+
+  // Workspaces (Hyprland)
+  "hyprland/workspaces": {
+    "on-scroll-up": "hyprctl dispatch workspace r-1",
+    "on-scroll-down": "hyprctl dispatch workspace r+1",
+    "on-click": "activate",
+    "active-only": false,
+    "all-outputs": true,
+    "format": "{}",
+    "format-icons": {
+      "urgent": "",
+      "active": "",
+      "default": ""
+    },
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+    "clock": {
+    	"interval": 1,
+    	"timezone": "Europe/Berlin",
+    	"format": "[{:%H:%M:%S}  ]",
+    	"tooltip": false,
+    },
+    "cpu": {
+        "format": "[{usage}%  ]",
+        "tooltip": false
+    },
+    "memory": {
+        "format": "[{}%  ]"
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "[{capacity}% 󰁿]",
+        "format-charging": "[{capacity}% 󰂊 ]",
+        "format-plugged": "[{capacity}% 󰁿]",
+        "format-alt": "[{time}]",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "hyprland/window": {
+    "format": "[{}]",
+    "rewrite": {
+    },
+    "separate-outputs": true
+    },
+    "network": {
+        "format-wifi": "[Wired  ]",
+        "format-ethernet": "[Wired ]",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Unwired",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        "format": "[{volume}%   / {format_source}]",
+        "format-bluetooth": "[{volume}%    {format_source}]",
+        "format-bluetooth-muted": " {format_source}",
+        "format-muted": "󰝟 {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": " ",
+        "on-click": "pulsemixer"
+    },
+    "bluetooth": {
+	"format": "[ {status}]",
+	"format-connected": "[ {device_alias}]",
+	"format-connected-battery": "[ {device_alias} {device_battery_percentage}%]",
+	// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    },
+
+  	// CAVA Audio Visualizer
+  	"custom/cava": {
+  	  "exec": "~/.config/waybar/scripts/cava.sh",
+  	  "format": "[{}]",
+  	  "on-click-middle": "playerctl play-pause",
+  	  "on-click-right": "playerctl next",
+  	  "on-click-left": "playerctl previous"
+  	}
+}
