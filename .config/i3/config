@@ -78,24 +78,24 @@ exec --no-startup-id ~/.local/bin/monitor_touchpad.sh
 # ==================================================
 # Wallpaper and lock screen
 # ==================================================
-set $wallpaper /home/john/.local/share/wallpapers/beyond-the-black-rainbow-sentinals.jpg
+set $wallpaper /home/john/.local/share/wallpapers/berserk1.png
 
 
 # ==================================================
 # set gaps size 
 # ==================================================
-gaps inner 0px
-gaps outer 0px
+gaps inner 5px
+gaps outer 1px
 
 #remove titles for pop up windows
 for_window [class="^.*"] border pixel 2
-for_window [class="F^.*"] floating enable, resize set ppt 50 ppt 50
+for_window [class="F^.*"] floating enable, resize set ppt 30 ppt 30
 
 # ==================================================
 # PYWAL 
 # ==================================================
-exec_always --no-startup-id wal -i $wallpaper
-exec_always --no-startup-id xwallpaper --daemon --maximize $wallpaper
+#exec_always --no-startup-id wal -i $wallpaper
+exec_always --no-startup-id xwallpaper --daemon --center $wallpaper
 
 # ==================================================
 # COLORS
@@ -232,6 +232,7 @@ set $term xfce4-terminal
 #set $term3 xfce4-terminal
 set $browser brave 
 set $browser2 firefox
+set $browser3 zen
 set $mail evolution
 set $filemanager pcmanfm
 set $filemanager2 thunar 
@@ -248,7 +249,8 @@ bindsym $mod+d exec --no-startup-id dmenu_run -nb "#000000" -nf "$fg" -sb "$fg" 
 #bindsym $mod+d exec --no-startup-id dmenu_run  
 
 bindsym $mod+e exec --no-startup-id $term -e /home/john/.local/bin/lvim
-bindsym $mod+w exec --no-startup-id $browser  
+#bindsym $mod+w exec --no-startup-id $browser || $browser2
+bindsym $mod+w exec --no-startup-id $browser3
 bindsym $mod+Shift+w exec --no-startup-id $browser2 
 bindsym $mod+p exec --no-startup-id rofi -show window -show-icons -theme Arc-Dark
 bindsym $mod+x exec --no-startup-id xournalpp
@@ -269,7 +271,7 @@ bindsym $mod+F11 exec --no-startup-id $term -e /home/john/.local/bin/change_dir_
 bindsym $mod1+t exec --no-startup-id texmaker 
 bindsym $mod+v exec --no-startup-id $editor || $editor2
 bindsym $mod+r exec --no-startup-id $term -e yazi
-bindsym $mod+o exec --no-startup-id $term -e "/home/john/.local/bin/fo"
+bindsym $mod+o exec --no-startup-id $term -e "/home/john/.local/bin/fo" || $term2 -e "/home/john/.local/bin/fo"
 bindsym $mod+c exec --no-startup-id mpv /dev/video0
 bindsym $mod+n exec --no-startup-id $term -e "ncmpcpp"
 bindsym $mod+s exec --no-startup-id $HOME/.local/bin/screenshot.sh
