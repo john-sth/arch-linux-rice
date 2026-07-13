@@ -4,6 +4,7 @@
 
 # replace neofetch with fastfetch 
 alias neofetch='fastfetch'
+alias htop='btop'
 alias record='ffmpeg -f x11grab -s "1920x1080" -i :0.0+0.0 -r 25 $(date +%s)-recording.mp4'
 
 alias lsblk="lsblk | bat -l conf -p"
@@ -92,7 +93,7 @@ alias ll='exa -la'
 alias llc='clear && exa -la'
 alias la='exa -a'
 #Sort resources by _file_ size.**   
-alias lu='du -sh * | sort -h' 
+alias lu='\du -sh * | sort -h' 
 #count how many files are in a directory
 alias count='find . -type f | wc -l'
 ## show current directories
@@ -110,7 +111,8 @@ alias amerge='read filename | pdftk *.pdf cat output $filename'
 
 alias grep='grep --color=auto'
 #alias mpv='swallow mpv'
-alias za='swallow zathura || zathura'
+#alias za='swallow zathura || zathura'
+alias za='swallow zathura'
 alias sxiv='swallow sxiv'
 ## fix typos
 alias sl='ls'
@@ -155,7 +157,8 @@ alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 
 alias df='df -H'
 #alias du='du -ch'
-alias du='ncdu --show-hidden'
+#alias du='ncdu --show-hidden'
+alias du=dust
 alias df='dysk'
 
 ## update System
