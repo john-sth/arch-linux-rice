@@ -107,12 +107,12 @@ exec_always --no-startup-id xwallpaper --daemon --center $wallpaper
 # it fails to get colors from Xresources.
 set_from_resource $fg i3wm.color7 #f0f0f0
 set_from_resource $bg i3wm.color2 #f0f0f0
-set $red_c 880808
+set $red_c #880808
 
 # class                 border  backgr. text indicator child_border
-client.focused          $fg     #000000     $fg  $fg       $fg
+client.focused          $fg     $fg     $fg  $fg       $fg
 client.focused_inactive $bg     $bg     $fg  $bg       $bg
-client.unfocused        $bg     #000000     $fg  $bg       $bg
+client.unfocused        $bg     #000000 $fg  $bg       $bg
 client.urgent           $bg     $bg     $fg  $bg       $bg
 client.placeholder      $bg     $bg     $fg  $bg       $bg
 client.background       $bg
@@ -189,9 +189,9 @@ exec --no-startup-id nm-applet
 # exec --no-startup-id signal-desktop --password-store="gnome-libsecret" --use-tray-icon --start-in-tray
 
 #assign [class="Anki"] 3
-assign [class="^Alacritty"] 1
+#assign [class="^Alacritty"] 1
 for_window [class="^Anki$"] layout tabbed
-for_window [class="^Alacritty$"] layout tabbed
+#for_window [class="^Alacritty$"] layout tabbed
 # Assign the terminal running cmus to workspace 3
 # Start cmus in a terminal on workspace 3
 #assign [title="vit"] 3
@@ -227,10 +227,9 @@ set $mod3 Mod3
 # ==================================================
 # set default programs 
 # ==================================================
-#set $term alacritty
-set $term2 kitty  
 set $term xfce4-terminal
-#set $term3 xfce4-terminal
+set $term2 kitty  
+set $term3 alacritty
 set $browser brave 
 set $browser2 firefox
 set $browser3 zen
@@ -243,7 +242,7 @@ set $editor2 code
 
 #set $term st 
 
-bindsym $mod+Return exec --no-startup-id $term3 || $term || $term2 
+bindsym $mod+Return exec --no-startup-id $term3
 bindsym $mod+Shift+Return exec --no-startup-id $term -e /home/john/.local/bin/dev-tmux || $term2 /home/john/.local/bin/dev-tmux
 bindsym $mod+q kill
 bindsym $mod+d exec --no-startup-id dmenu_run -nb "#000000" -nf "$fg" -sb "$fg" -sf "$bg" -fn 'EnvyCodeR:bold:pixelsize=15' -i -h 35 -b -l 10
