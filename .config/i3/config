@@ -201,6 +201,7 @@ for_window [class="^Alacritty$"] layout tabbed
 #exec --no-startup-id i3-msg "workspace 3; exec --no-startup-id alacritty -t "curl wttr.in/Duesseldorf" -e wttr"
 # display notifications
 exec_always --no-startup-id dunst
+exec_always --no-startup-id picom
 # set screen timeout to 1 hour
 exec_always --no-startup-id xset s 3600 3600
 exec_always --no-startup-id autotiling

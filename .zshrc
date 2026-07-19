@@ -5,9 +5,9 @@
 #set colors of prompt
 #packages zsh-autosuggestions, zsh-syntax-highlighting
 
-#.bash_profile
+
+# start ssh agent
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-# ~/.config/fish/config.fish
 #set -x SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
 # start ssh-agent and load default key if not already
 if [ -z "$SSH_AUTH_SOCK" ] || ! ss -l | grep -q "$SSH_AUTH_SOCK"; then
@@ -20,33 +20,6 @@ if ! ssh-add -l >/dev/null 2>&1; then
 fi
 export SSH_AUTH_SOCK
 
-
-
-# ==================================================
-# custom functions
-# ==================================================
-# list github repos
-repos() {
-  curl -s "https://api.github.com/users/john-sth/repos?per_page=100" |
-    jq -r '
-      def red:   "\u001b[31m";
-      def green: "\u001b[32m";
-      def blue:  "\u001b[34m";
-      def reset: "\u001b[0m";
-      .[] | [
-        red + .name + reset,
-        green + (.description // "No description") + reset,
-        blue + .html_url + reset
-      ] | @tsv' |
-    column -t -s $'\t'
-}
-
-# python create env
-create_env() {
-    python -m venv $1
-    source $1/bin/activate
-    pip install --upgrade-pip
-}
 
 # enable auto cd
 setopt autocd
@@ -67,6 +40,9 @@ fi
 bindkey -s '\eh' 'cd ~\n'
 
 
+# =====================================================
+# MISC
+# =====================================================
 export XDG_CONFIG_HOME=$HOME/.config
 
 # =====================================================
@@ -226,16 +202,25 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
 
-#if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-#    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
-#fi
+# ==================================================
+# custom functions
+# ==================================================
 
-
-# Fix : Color scheme not recovering what was previously set with pywal
-#if command -v wal > /dev/null 2>&1 && [ "$TERM" = "alacritty" ]; then
-#    wal -Rqe
-#fi
-
+# list github repos
+repos() {
+  curl -s "https://api.github.com/users/john-sth/repos?per_page=100" |
+    jq -r '
+      def red:   "\u001b[31m";
+      def green: "\u001b[32m";
+      def blue:  "\u001b[34m";
+      def reset: "\u001b[0m";
+      .[] | [
+        red + .name + reset,
+        green + (.description // "No description") + reset,
+        blue + .html_url + reset
+      ] | @tsv' |
+    column -t -s $'\t'
+}
 # =====================================================
 # git function for doing add, commit and push in one go
 # =====================================================
@@ -260,5 +245,5 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
-eval "$(uv generate-shell-completion zsh)"
+    eval "$(pyenv init - zsh)"
+    eval "$(uv generate-shell-completion zsh)"
