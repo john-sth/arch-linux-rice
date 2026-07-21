@@ -86,15 +86,14 @@ set $wallpaper /home/john/.local/share/wallpapers/berserk1.png
 # ==================================================
 gaps inner 5px
 gaps outer 1px
+hide_edge_borders smart_no_gaps
+default_border normal 
 
 #remove titles for pop up windows
 for_window [class="^.*"] border pixel 2
-for_window [class="F^.*"] floating enable, resize set ppt 30 ppt 30
+#for_window [class="F^.*"] floating enable, resize set ppt 30 ppt 30
+for_window [floating] resize set 840 680
 
-# ==================================================
-# PYWAL 
-# ==================================================
-#exec_always --no-startup-id wal -i $wallpaper
 exec_always --no-startup-id xwallpaper --daemon --center $wallpaper
 
 # ==================================================
@@ -321,7 +320,7 @@ bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up 
 bindsym $mod+Shift+l move right 
 
-bindsym $mod+shift+[ j k l ; ] move [px=120]]]
+#bindsym $mod+shift+[ j k l ; ] move [px=120]]]
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
