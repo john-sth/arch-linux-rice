@@ -1,17 +1,19 @@
 #!/bin/bash
 
-## config script for displaying i3 lock screen
+# ========================================================================
+# config script for displaying i3 lock screen
+# package i3lock-color (AUR) 
+# ========================================================================
 
 #i3lock --date-color=ffffffff --time-color=ffffffff -n -k --indicator --radius 120 --ring-width 15 -i "$lock_bg" -f -F
 lock_bg=/home/john/.local/share/wallpapers/berser-sea-god.jpg
 
-RING_COLOR=$(sed -n '1p' ~/.cache/wal/colors)   # Primary color
-KEYHL_COLOR=$(sed -n '2p' ~/.cache/wal/colors) # Highlight color
-BSHL_COLOR=$(sed -n '3p' ~/.cache/wal/colors)  # Secondary color
-SEPARATOR_COLOR=$(sed -n '4p' ~/.cache/wal/colors)
-RINGVER_COLOR=$(sed -n '6p' ~/.cache/wal/colors)
-RINGWRONG_COLOR=$(sed -n '7p' ~/.cache/wal/colors)
-    #--ring-color=$RING_COLOR \
+RING_COLOR='#ee00eeee'   # Primary color
+KEYHL_COLOR='#00000000' # Highlight color
+BSHL_COLOR='#ffffff22'  # Secondary color
+SEPARATOR_COLOR='#ff00ffcc'
+RINGVER_COLOR='#ee00eeee'
+RINGWRONG_COLOR='#880000bb'
 
 i3lock \
     -n \

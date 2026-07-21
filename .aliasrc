@@ -29,7 +29,7 @@ alias gf='git fetch'
 # i3lock config 
 # ==================================================
 lock_bg="/home/john/.local/share/wallpapers/road-trees.jpg"
-alias i3lock='i3lock --date-color=ffffffff --time-color=ffffffff -n -k --indicator --radius 120 --ring-width 15 -i $lock_bg -f -F'
+alias i3lock='i3lock -i $lock_bg -f'
 
 # zoxide
 alias cd='z'
