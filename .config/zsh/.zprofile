@@ -1,3 +1,12 @@
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+  #neofetch
+  exec startx
+  #exec start-hyprland
+fi
+
+#if uwsm check may-start && uwsm select;then
+#	exec systemd-cat -t uwsm_start uwsm start default
+#fi
 export GTK_THEME=Arc:dark
 speed-dispatcher -d
 #sxhkd

@@ -6,39 +6,28 @@
 #packages zsh-autosuggestions, zsh-syntax-highlighting
 
 
-# ==================================================
-# custom functions
-# ==================================================
-# list github repos
-repos() {
-  curl -s "https://api.github.com/users/john-sth/repos?per_page=100" |
-    jq -r '
-      def red:   "\u001b[31m";
-      def green: "\u001b[32m";
-      def blue:  "\u001b[34m";
-      def reset: "\u001b[0m";
-      .[] | [
-        red + .name + reset,
-        green + (.description // "No description") + reset,
-        blue + .html_url + reset
-      ] | @tsv' |
-    column -t -s $'\t'
-}
+# start ssh agent
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+#set -x SSH_AUTH_SOCK $XDG_RUNTIME_DIR/ssh-agent.socket
+# start ssh-agent and load default key if not already
+if [ -z "$SSH_AUTH_SOCK" ] || ! ss -l | grep -q "$SSH_AUTH_SOCK"; then
+  eval "$(ssh-agent -s)" >/dev/null
+fi
+if ! ssh-add -l >/dev/null 2>&1; then
+  ssh-add ~/.ssh/github >/dev/null 2>&1 || ssh-add ~/.ssh/id_gitlab_informatik_uni_bonn >/dev/null 2>&1
+  ssh-add ~/.ssh/gitlabp >/dev/null 2>&1 || ssh-add ~/.ssh/kubrick >/dev/null 2>&1
+  ssh-add ~/.ssh/comp_ani >/dev/null 2>&1
+fi
+export SSH_AUTH_SOCK
 
-# python create env
-create_env() {
-    python -m venv $1
-    source $1/bin/activate
-    pip install --upgrade-pip
-}
 
 # enable auto cd
-setopt autocd   
+setopt autocd
 
 if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-  #neofetch 
-  #exec startx
-  exec start-hyprland
+  #neofetch
+ #exec startx
+  #exec start-hyprland
 fi
 
 #if uwsm check may-start && uwsm select;then
@@ -51,6 +40,9 @@ fi
 bindkey -s '\eh' 'cd ~\n'
 
 
+# =====================================================
+# MISC
+# =====================================================
 export XDG_CONFIG_HOME=$HOME/.config
 
 # =====================================================
@@ -82,7 +74,7 @@ zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
 # =====================================================
-## History store outside of config 
+## History store outside of config
 # =====================================================
 
 HISTSIZE=10000000
@@ -96,7 +88,7 @@ bindkey '^F' autosuggest-accept
 ## executes fo (fzf script) in .local/bin
 # =====================================================
 fo-widget() {
-   $HOME/.local/bin/fo 
+   $HOME/.local/bin/fo
 }
 zle -N fo-widget
 
@@ -105,9 +97,9 @@ zle -N fo-widget
 # =====================================================
 bindkey '^F' fo-widget
 
-## fix slow zsh autocompletion for adding files in git 
-__git_files () { 
-    _wanted files expl 'local files' _files     
+## fix slow zsh autocompletion for adding files in git
+__git_files () {
+    _wanted files expl 'local files' _files
 }
 
 # =====================================================
@@ -204,22 +196,31 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.local/share:$PATH
 
 # =====================================================
-# use less and bat for syntax highlighting in man pages 
+# use less and bat for syntax highlighting in man pages
 # =====================================================
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 
 
-#if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-#    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
-#fi
+# ==================================================
+# custom functions
+# ==================================================
 
-
-# Fix : Color scheme not recovering what was previously set with pywal
-#if command -v wal > /dev/null 2>&1 && [ "$TERM" = "alacritty" ]; then
-#    wal -Rqe
-#fi
-
+# list github repos
+repos() {
+  curl -s "https://api.github.com/users/john-sth/repos?per_page=100" |
+    jq -r '
+      def red:   "\u001b[31m";
+      def green: "\u001b[32m";
+      def blue:  "\u001b[34m";
+      def reset: "\u001b[0m";
+      .[] | [
+        red + .name + reset,
+        green + (.description // "No description") + reset,
+        blue + .html_url + reset
+      ] | @tsv' |
+    column -t -s $'\t'
+}
 # =====================================================
 # git function for doing add, commit and push in one go
 # =====================================================
@@ -230,14 +231,19 @@ function lazygit() {
 }
 
 # =====================================================
-# zoxide and fzf 
+# zoxide and fzf
 # =====================================================
 eval "$(zoxide init zsh)"
 
 export FZF_DEFAULT_OPTS="--preview 'cat {}' --bind 'ctrl-j:down,ctrl-k:up,alt-j:preview-down,alt-k:preview-up' --border=rounded"
 
 source /usr/share/fzf/completion.zsh
-source /usr/share/fzf/key-bindings.zsh 
+source /usr/share/fzf/key-bindings.zsh
 source $HOME/.aliasrc
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init - zsh)"
+    eval "$(uv generate-shell-completion zsh)"
